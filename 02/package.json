@@ -1,0 +1,16 @@
+{
+  "name": "pacote-teste",
+  "version": "0.1.0",
+  "description": "Pacote de teste de scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api",
+    "scripts",
+    "banco"
+  ],
+  "author": "Ramon de Holanda",
+  "license": "ISC"
+}
