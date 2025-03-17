@@ -5,7 +5,7 @@ import mysql from 'mysql2/promise';
 const conexao = mysql.createPool(db);
 
 //Criando Produto
-const criandoProduto = async (nomeProduto) =>{
+export const criandoProduto = async (nomeProduto) =>{
     console.log('ProdutoModel :: criandoProduto');
 
     //SQl de Inserção
@@ -18,14 +18,20 @@ const criandoProduto = async (nomeProduto) =>{
     
     try {
         const [resposta] = await conexao.query(sql,params);
-        console.log(resposta)
+        //console.log(resposta)
+        return [201,{mensagem:'Produto cadastrado com sucesso'}];
     } catch (error) {
-        console.error(error);
+        //console.error(error);
+        return[500,{
+            mensagem:'Erro Servidor',
+            code:error.code,
+            sql:error.sqlMessage
+        }]
     }
 }
 
 //Mostrando produtos da Tabela produtos
-const mostrarProdutos = async () =>{
+export const mostrarProdutos = async () =>{
     console.log('ProdutoModel :: mostrarProdutos');
 
     //SQL Para realizar consulta
@@ -33,13 +39,19 @@ const mostrarProdutos = async () =>{
     try {
         //Pegando primeiro array de resposta
         const [resposta] = await conexao.query(sql);
-        console.log(resposta);
+        //console.log(resposta);
+        return [200,resposta]
     } catch (error) {
-        console.error(error);
+        //console.error(error);
+        return[500,{
+            mensagem:'Erro Servidor',
+            code:error.code,
+            sql:error.sqlMessage
+        }]
     }
 };
 
-const atualizandoProduto = async(id_produto,nomeProduto)=>{
+export const atualizandoProduto = async(id_produto,nomeProduto)=>{
     console.log('ProdutoModel :: atualizandoProduto');
 
     //SQL Update produto
@@ -49,13 +61,23 @@ const atualizandoProduto = async(id_produto,nomeProduto)=>{
 
     try {
         const [resposta] = await conexao.query(sql,params);
-        console.log(resposta);
+        //console.log(resposta);
+        if (resposta.affectedRows<1){
+            return [404,{mensagem:'Produto não encontrado'}]
+        }else{
+            return [200,{mensagem:'Produto atualizado com sucesso'}]
+        }
     } catch (error) {
-        console.error(error);
+        //console.error(error);
+        return[500,{
+            mensagem:'Erro Servidor',
+            code:error.code,
+            sql:error.sqlMessage
+        }]
     }
 }
 
-const deletandoProduto = async (id_produto) =>{
+export const deletandoProduto = async (id_produto) =>{
     console.log('ProdutoModel :: deletandoProduto');
 
     //SQL Deletando Produto
@@ -80,7 +102,7 @@ const deletandoProduto = async (id_produto) =>{
         }]
     }
 }
-console.log(await deletandoProduto(7));     
-//atualizandoProduto(5,'laranja');
+//console.log(await deletandoProduto(7));     
+//atualizandoProduto(6,'tangirina');
 //criandoProduto('melancia');
 //mostrarProdutos();
