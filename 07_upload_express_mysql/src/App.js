@@ -2,7 +2,7 @@ import express from 'express';
 import fileUpload from 'express-fileupload';
 import path from 'path';
 import url from 'url';
-import { createFoto } from './controllers/FotoController.js';
+import { createFoto, deleteFoto, readFoto, showOneFoto, updateFoto } from './controllers/FotoController.js';
 
 const port = 3000;
 const app = express();
@@ -16,14 +16,21 @@ app.use(express.json());
 //Habilitando upload de arquivos
 app.use(fileUpload())
 
+//permitindo acesso ao public
 app.use('/public/img',express.static(path.join(__dirname,'..','public','img')));
 
 app.get('/',(req,res)=>{
     res.status(200).json({mensagem:'API Funcionando'})
 });
 
+//CRUD Fotos
 app.post('/foto',createFoto);
+app.get('/foto',readFoto);
+app.put('/foto/:id_foto',updateFoto);
+app.delete('/foto/:id_foto',deleteFoto);
+
+app.get('/foto/:id_foto',showOneFoto);
 
 app.listen(port,()=>{
     console.log(`API Funcionando ${port}`);
-})
+});
