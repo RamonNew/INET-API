@@ -86,7 +86,7 @@ export const deleteFoto = async (req,res) =>{
 export const showOneFoto = async (req,res)  =>{
   console.log('FotoController :: showOneFoto');
   const [status,resposta] = await mostrarCaminho(req,res);
-  return [status,resposta];      
+  return res.status(status).json(resposta);       
 }
 
 export const mostrarCaminho = async (req,res) =>{
