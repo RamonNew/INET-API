@@ -7,6 +7,8 @@ import {
 } from "../models/FotoModel.js";
 import path from "path";
 import url from "url";
+import {promises as fs} from 'fs';
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -64,6 +66,15 @@ export const deleteFoto = async (req,res) =>{
     console.log('FotoController :: deleteFoto');
     const {id_foto} = req.params;
     try {
+        // Chama a função que verifica se a foto existe e trás o objeto com o caminho dela
+        const [statusFoto, respostaFoto] = await mostrarCaminho(req,res);
+        // Se a foto não existir retornará 404
+        if(statusFoto === 404){
+          return res.status(statusFoto).json(respostaFoto)  
+        }
+        // Montar caminho imagem
+        const caminhoImagem = path.join(__dirname, "..", "..", "public", "img", respostaFoto.caminho);
+        await fs.unlink(caminhoImagem);
         const [status,resposta] = await apagarFoto(id_foto);
         return res.status(status).json(resposta);
     } catch (error) {
@@ -72,12 +83,17 @@ export const deleteFoto = async (req,res) =>{
     }
 }
 
-export const showOneFoto = async (req,res) =>{
-    console.log('FotoController :: showOneFoto');
+export const showOneFoto = async (req,res)  =>{
+    
+}
+
+export const mostrarCaminho = async (req,res) =>{
+    console.log('FotoController :: mostrarCaminho');
     const {id_foto} = req.params;
     try {
         const [status,resposta] = await mostraUmaFoto(id_foto);
-        return res.status(status).json(resposta);    
+        return [status,resposta];
+        //return res.status(status).json(resposta);    
     } catch (error) {
         console.error(error);
         return res.status(500).json({ mensagem: "erro ao mostrar uma foto" });   
