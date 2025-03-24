@@ -3,12 +3,16 @@ import fileUpload from 'express-fileupload';
 import path from 'path';
 import url from 'url';
 import { createFoto, deleteFoto, readFoto, showOneFoto, updateFoto } from './controllers/FotoController.js';
+import cors from 'cors';
 
 const port = 3000;
 const app = express();
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+//Habilitando uso do Cors
+app.use(cors());
 
 //Habilitando uso do JSON importante pois permite o uso JSON
 app.use(express.json());
