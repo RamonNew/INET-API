@@ -27,6 +27,13 @@ export const createFoto = async (req, res) => {
   }
   const nomeFoto = foto.name;
   const extensao = path.extname(nomeFoto).toLocaleLowerCase();
+  
+  //Extensões permitidas
+  const extensoesPermitidas = ['.jpg','.jpeg','.png'];
+  if(!extensoesPermitidas.includes(extensao)){
+    return res.status(400).json({ mensagem: "Extensão invalida" });
+  }
+
   const caminho = `${Date.now()}${extensao}`;
   try {
     await foto.mv(path.join(__dirname, "..", "..", "public", "img", caminho));
