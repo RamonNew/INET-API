@@ -137,5 +137,5 @@ export const vericarUsuarioSenha = async (usuario,senha) =>{
 //const retorno = await mostrandoUsuarios();
 //const retorno = await (atualizarUsuario("Pietra","pietra","123*abc","a",10));
 //const retorno = await deletarUsuario(6);
-const retorno = await vericarUsuarioSenha("gveloso","123*abc");
-console.log(JSON.stringify(retorno));
+//const retorno = await vericarUsuarioSenha("gveloso","123*abc");
+//console.log(JSON.stringify(retorno));
