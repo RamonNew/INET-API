@@ -37,7 +37,7 @@ export const mostrandoUsuarios = async () => {
   const sql = `SELECT * FROM usuarios`;
   try {
     const [resposta] = await conexao.query(sql);
-    return [200, { resposta }];
+    return [200,resposta];
   } catch (error) {
     console.error({
       mensagem: "Erro Servidor",
