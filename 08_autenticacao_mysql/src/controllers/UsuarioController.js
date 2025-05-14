@@ -8,10 +8,8 @@ import {
 
 import jwt from "jsonwebtoken";
 
-//const secret = "@jujuba27";
-
 const secret = process.env.SECRET_KEY;
-console.log(secret)
+
 export const createUsuario = async (req, res) => {
   console.log("UsuarioController :: createUsuario");
   const { nome, usuario, senha, tipo } = req.body;
@@ -77,7 +75,10 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id_usuario: resposta.id_usuario }, secret, {
       expiresIn: 20,
     });
-    return res.status(status).json({token});
+    if (status === 200){
+      return res.status(status).json({token});
+    }
+    return res.status(status).json(resposta);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ mensagem: "erro ao logar" });

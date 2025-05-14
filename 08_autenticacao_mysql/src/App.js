@@ -1,5 +1,4 @@
-import dotenv from 'dotenv'
-dotenv.config()
+import 'dotenv/config';
 import express from 'express';
 import { createUsuario, deleteUsuario, login, readUsuario, updateUsuario, verificaToken } from './controllers/UsuarioController.js';
 
@@ -10,10 +9,10 @@ const app = express();
 app.use(express.json());
 
 //CRUD
-app.post('/usuario',createUsuario);
+app.post('/usuario',verificaToken,createUsuario);
 app.get('/usuario',verificaToken,readUsuario);
-app.put('/usuario/:id_usuario',updateUsuario);
-app.delete('/usuario/:id_usuario',deleteUsuario);
+app.put('/usuario/:id_usuario',verificaToken,updateUsuario);
+app.delete('/usuario/:id_usuario',verificaToken,deleteUsuario);
 
 app.post('/login/',login);
 
